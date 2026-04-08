@@ -5,7 +5,15 @@ import requests
 from gas_price_database import lookup_gas_price
 from vehicle_info import get_vehicle_info
 
-# to access the API's get them from Daniel
+# Note: You need to get your own Google Maps API key from https://console.cloud.google.com/
+# Set it via environment variable GMAPS_API_KEY or replace the default string.
+GMAPS_API_KEY = os.environ.get("GMAPS_API_KEY", "") # get API key from Daniel 
+
+# EIA API key for gas prices (free, register at https://www.eia.gov/opendata/register.php)
+EIA_API_KEY = os.environ.get("EIA_API_KEY", "") # get API key from Daniel 
+
+# NREL API key for EV charging stations (free, register at https://developer.nrel.gov/signup/)
+NREL_API_KEY = os.environ.get("NREL_API_KEY", "") # get API key from Daniel 
 
 # Function to get route
 def get_route(start, end):
