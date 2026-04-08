@@ -5,7 +5,7 @@ import requests
 from gas_price_database import lookup_gas_price
 from vehicle_info import get_vehicle_info
 
-// to access the API's get them from Daniel
+# to access the API's get them from Daniel
 
 # Function to get route
 def get_route(start, end):
