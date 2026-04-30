@@ -1,0 +1,26 @@
+TripGenie
+Clint Allen, Jonathan Jones, Ethan Lim, Daniel Romero
+
+Executive Summary:
+For long-distance road trips, a common problem is accurately predicting fuel costs, determining optimal refueling stops, and identifying points of interest that align with their vehicle’s range and fuel consumption. Our solution, TripGenie, is an integrated AI assistant that automates the logistics of the drive. It does this by taking the user’s starting point, destination, and vehicle model as an input to generate a comprehensive itinerary. It calculates fuel costs based on real-time data and recommends specific refueling locations based on that, and suggests local attractions the user might be interested in during their trip. 
+
+User and Use Case:
+The persona of our users would be that of “The Logistics-Oriented Traveler”. This is someone who likes road trips or would rather drive than fly for vacation, but feels anxious about hidden costs or running out of gas in unfamiliar areas. The usage narrative includes the user giving their starting point, destination, and vehicle model as input and receiving a step-by-step travel guide as output. For example, the user would type something like, “San Francisco to Seattle”, and give their car model, “2022 Toyota RAV4”. Our system would calculate the ~800 mile drive, identify that the vehicle would need about 2 refueling stops based on its MPG and tank size, and cross-reference gas prices along the I-5. Once it is done, it would output a clear and concise travel guide with a total estimated fuel expenditure and stopovers the user might be interested in knowing about. 
+
+System Design: 
+The system uses a modular Python-based architecture where logic is separated from data storage. The vehicle info and database is stored in dedicated modules, vehicle_info and vehicle_database, and provide specific technical specifications like MPG and fuel capacity in order to calculate the number of stops accurately. The roadtrip_planner acts as the orchestrator and merges spatial data with the constraints of the vehicle. The high-level flow goes as follows: (see image in repo)
+
+Data: 
+TripGenie uses the internal source, vehicle_database, which contains specs for vehicles. The AI model also uses gas price datasets and geographic location data for points of interest as an external data source. The data is indexed by vehicle make/model/year to ensure a one-to-one mapping. Fuel prices are normalized to allow for an ‘Expected Value’ calculation in trip budgeting. 
+
+Models: 
+The MVP utilizes a hybrid architecture that combines deterministic rule-based logic with generative AI. We utilize a frontier LLM to transfer coordinates and cost data into a conversational, ‘travel agent-esque’ itinerary. Custom Python scripts handle the deterministic calculations to ensure the AI does not hallucinate the fuel costs. The system is designed so the AI ‘calls’ our internal databases as tools. An example of the calculation would be like Range = Fuel Capacity x MPG. The MVP’s prompting strategy is design prompts that prioritize spatiotemporal coherence. This ensures attractions are recommended in the correct chronological order of the trip 
+
+Evaluation:
+For quantitative metrics, one that we prioritized in the MVP is cost accuracy. The variance between predicted fuel costs and actual averages should have < 5% error. Another minor metric we focused on was efficiency. We wanted to minimize the number of stops while keeping a 15% fuel safety buffer to save the user money without worrying about running out of fuel in the middle of the road. The qualitative metric we focused on the most was logical routing. We wanted to ensure the AI doesn’t suggest a 50-mile detour for a slightly cheaper gas station. 
+
+Limitation and Risks:
+One limitation is data latency. Gas prices fluctuate daily, but the MVP relies on the last database update which limits how accurate it will be. Another limitation will be how extreme weather would affect fuel efficiency; things like mountain climbing or heavy headwind which haven’t been put in the physics model. One risk that will be associated with the MVP is privacy as the user requires location data to output accurate travel advice. 
+
+Next Steps:
+Some next steps for this MVP would be to increase its accuracy. As stated earlier, one of the greatest limitations this project faces is that it can’t provide daily gas prices, only prices based on when the database was last updated. With enough funding we could implement API’s that could accurately take in current gas prices. Along with this, more work could be done to further make our project user friendly. This could be done by integrating it more with well known map applications or further working on our interface so that a user does not have to input their vehicle's information every single time they want to use it. Finally, work could be done to make it more “chat” based rather than filling out a form. This “chat” based program would be able to fill out any needed information itself by talking with you and create a route in real time as you talk with it, add in gas stations, hotels, or stops for food as needed. As these next steps are accomplished, the user will have a much easier time using it and the overall experience will be better.
